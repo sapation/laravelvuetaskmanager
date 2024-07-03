@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "moduleResolution": "Node",
+    "types": ["vite/client"],
+    "strict": true,
+    "jsx": "preserve",
+    "noEmit": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules", "public"],
+  "include": [
+    "resource/js/**/*.ts",
+    "resource/js/**/*.d.ts",
+    "resource/js/**/*.vue",
+    "resource/js/app.ts",
+  ],
+}

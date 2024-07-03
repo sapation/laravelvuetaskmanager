@@ -22,4 +22,12 @@ class Project extends Model
         $slug = Str::slug($name). '-'.$code;
         return $slug;
     }
+
+    public function task_progress() {
+        return $this->hasOne(TaskProgress::class, 'projectId');
+    }
+
+    public function task() {
+        return $this->hasMany(Task::class, 'projectId');
+    }
 }
