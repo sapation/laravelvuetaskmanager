@@ -16,7 +16,7 @@ class MemberController extends Controller
     {
         $query = $request->get('query');
         //$members = Member::select('name', 'email');
-        $members = DB::table('member');
+        $members = DB::table('members');
 
         if (!is_null($query) && $query !== '') {
             $members->where('name', 'like', '%' . $query . '%')

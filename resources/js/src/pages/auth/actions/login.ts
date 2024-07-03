@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { makeHttpReq } from "../../../helper/makeHttpReq";
 import { showError, showSuccess } from "../../../helper/toast-notification";
+import { showErrorResponse } from "../../../helper/util";
 
 export type LoginUserType = {
     email: string;
@@ -8,8 +9,10 @@ export type LoginUserType = {
 };
 
 export type LoginUserResponse = {
-    user: { email: string };
+    user: { email: string, id: number };
     message: string;
+    isLoggedIn: boolean,
+    token: string
 };
 
 export const loginInput = ref<LoginUserType>({} as LoginUserType);
@@ -27,12 +30,16 @@ export function useLoginUser() {
             loading.value = false;
             loginInput.value = {} as LoginUserType;
             showSuccess(data.message);
+
+            if(data.isLoggedIn) {
+                console.log(data);
+                localStorage.setItem("user", JSON.stringify(data));
+                window.location.href = "/app/admin";
+            }
+
         } catch (error) {
             loading.value = false;
-
-            for (const message of error as string[]) {
-                showError(message);
-            }
+            showErrorResponse(error);
         }
     }
 

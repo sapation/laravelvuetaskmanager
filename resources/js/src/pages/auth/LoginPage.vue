@@ -22,7 +22,7 @@
                                 </div>
 
                                 <div class="from-group mb-3">
-                                    <router-link to="/login">Create an account</router-link>
+                                    <router-link to="/register">Create an account</router-link>
                                 </div>
                             </form>
                         </div>
@@ -37,9 +37,6 @@
     import { loginInput, useLoginUser } from './actions/login'
     import { useVuelidate } from '@vuelidate/core'
     import {required, email} from '@vuelidate/validators'
-    import Error from "../../components/Error.vue"
-    import BaseInput from "../../components/BaseInput.vue"
-    import BaseBtn from "../../components/BaseBtn.vue"
 
     const rules ={
         email: { required, email },
@@ -48,6 +45,7 @@
 
     const v$ = useVuelidate(rules, loginInput);
     const { loading, login } = useLoginUser();
+
     async function submitLogin() {
         const result = await v$.value.$validate();
         if(!result) return;

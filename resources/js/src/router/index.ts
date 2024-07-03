@@ -20,6 +20,28 @@ const router = createRouter({
                 },
             ],
         },
+        {
+            path: "/admin",
+            name: "admin",
+            component: () => import("../pages/admin/adminPage.vue"),
+            children: [
+                {
+                    path: "/admin",
+                    name: "admin",
+                    component: () => import("../pages/admin/dashboard/DashboardPage.vue"),
+                },
+                {
+                    path: "/members",
+                    name: "members",
+                    component: () => import("../pages/admin/member/MemberPage.vue"),
+                },
+                {
+                    path: "/create-member",
+                    name: "create-member",
+                    component: () => import("../pages/admin/member/CreateMember.vue"),
+                }
+            ],
+        },
     ],
 });
 

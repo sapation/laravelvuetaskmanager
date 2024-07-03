@@ -30,12 +30,18 @@ class AuthController extends Controller
         if(!is_null($user)) {
             if(intval($user->isValidEmail) !== User::IS_VALID_EMAIL) {
                 NewUserCreated::dispatch($user);
-                return response(['message' => 'We send you an email verification !']);
+                return response([
+                    'message' => 'We send you an email verification please check your email!',
+                    'isLoggedIn' => false
+                ], 422);
             }
         }
 
         if(!$user || !Hash::check($fields['password'], $user->password)){
-            return response(['message'=>'email or password invalid'], 422);
+            return response([
+                'message'=>'email or password invalid',
+                'isLoggedIn' => false
+            ], 422);
         }
 
         $token = $user->createToken($this->secretKey)->plainTextToken;
@@ -76,12 +82,20 @@ class AuthController extends Controller
         User::where('remember_token', $token)
             ->update(['isValidEmail' => User::IS_VALID_EMAIL]);
 
-        return redirect('/login');
+        return redirect('/app/login');
     }
 
     function generateRandomCode()
     {
         $code = Str::random(10) . time();
         return $code;
+    }
+
+    public function logoutUser(Request $request) {
+        DB::table('personal_access_token')
+        ->where('tokenable_id', $request->userId)
+        ->delete();
+
+        return response(['message'=> 'logout user'], 200);
     }
 }

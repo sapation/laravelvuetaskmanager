@@ -4,6 +4,10 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
+// Not found exception custom
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Illuminate\Http\Request;
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -16,5 +20,12 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function(RouteNotFoundException $e, Request $request){
+            if($request->is('api/*')){
+                return response()->json([
+                    'message' => 'Not authenticated',
+                    'status' => 401
+                ], 404);
+            }
+        });
     })->create();

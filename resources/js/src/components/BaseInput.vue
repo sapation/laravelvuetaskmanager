@@ -21,6 +21,5 @@
     function updateValue(event:any) {
         const val=event.target.value;
         emit('update:modelValue', val);
-        console.log(val);
     }
 </script>
